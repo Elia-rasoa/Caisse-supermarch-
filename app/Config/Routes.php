@@ -5,4 +5,6 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'CaisseController::index');
+$routes->get('/', 'Login::login');
+
+$routes->post('/caisse', 'CaisseController::index');
