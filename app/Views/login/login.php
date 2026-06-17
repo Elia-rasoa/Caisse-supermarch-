@@ -1,335 +1,148 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Connexion — Caisse</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion — Espace Caisse</title>
+    <style>
+        /* Réinitialisation de base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-  :root {
-    --bg:        #0F1117;
-    --card:      #1A1D27;
-    --accent:    #4F6EF7;
-    --accent-glow: rgba(79, 110, 247, 0.35);
-    --text:      #E8EAF2;
-    --muted:     #6B7280;
-    --border:    #2A2D3A;
-    --input-bg:  #12141E;
-    --error:     #F87171;
-  }
+        /* Arrière-plan thématique Supermarché (Frais et Moderne) */
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #2e7d32;
+        }
 
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--bg);
-    font-family: 'Inter', sans-serif;
-    color: var(--text);
-    overflow: hidden;
-  }
+        /* Conteneur principal (La Carte de Connexion) */
+        .login-container {
+            background-color: #ffffff;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(46, 125, 50, 0.15);
+            width: 100%;
+            max-width: 400px;
+            border-top: 8px solid #4caf50; /* Rappel couleur tapis de caisse / fraîcheur */
+        }
 
-  /* Ambient orb */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 50% at 50% 60%, var(--accent-glow) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
+        /* En-tête du formulaire */
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
 
-  /* Subtle grid texture */
-  body::after {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(var(--border) 1px, transparent 1px),
-      linear-gradient(90deg, var(--border) 1px, transparent 1px);
-    background-size: 48px 48px;
-    opacity: 0.18;
-    pointer-events: none;
-    z-index: 0;
-  }
+        .login-header h1 {
+            font-size: 1.8rem;
+            color: #1b5e20;
+            margin-bottom: 0.5rem;
+        }
 
-  .wrapper {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    max-width: 420px;
-    padding: 1rem;
-  }
+        .login-header p {
+            font-size: 0.9rem;
+            color: #666;
+        }
 
-  /* Logo / brand mark */
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 2.5rem;
-    justify-content: center;
-  }
+        /* Groupes de champs de saisie */
+        .input-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
 
-  .brand-icon {
-    width: 36px;
-    height: 36px;
-    background: var(--accent);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 20px var(--accent-glow);
-  }
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #333;
+        }
 
-  .brand-icon svg { width: 20px; height: 20px; color: #fff; }
+        /* Inputs stylisés */
+        .input-group input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
 
-  .brand-name {
-    font-family: 'Sora', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    color: var(--text);
-  }
+        /* Effet focus sur les inputs */
+        .input-group input:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+        }
 
-  /* Card */
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2.5rem 2rem;
-    box-shadow:
-      0 0 0 1px rgba(255,255,255,0.04) inset,
-      0 24px 60px rgba(0,0,0,0.5);
-  }
+        /* Bouton de connexion style "Valider Panier / Caisse" */
+        .btn-submit {
+            width: 100%;
+            padding: 0.85rem;
+            background-color: #ff9800; /* Orange dynamique pour l'action */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px rgba(255, 152, 0, 0.2);
+            margin-top: 0.5rem;
+        }
 
-  .card-header { margin-bottom: 2rem; }
+        /* Animations sur le bouton */
+        .btn-submit:hover {
+            background-color: #fb8c00;
+        }
 
-  .card-header h1 {
-    font-family: 'Sora', sans-serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    color: var(--text);
-    margin-bottom: 0.35rem;
-  }
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
 
-  .card-header p {
-    font-size: 0.875rem;
-    color: var(--muted);
-    font-weight: 400;
-  }
-
-  /* Form fields */
-  .field { margin-bottom: 1.25rem; }
-
-  .field label {
-    display: block;
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: var(--muted);
-    margin-bottom: 0.5rem;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-  }
-
-  .field input {
-    width: 100%;
-    background: var(--input-bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 0.75rem 1rem;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.9375rem;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    outline: none;
-    appearance: none;
-  }
-
-  .field input::placeholder { color: #3A3E50; }
-
-  .field input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.2);
-  }
-
-  /* Password wrapper */
-  .input-wrap {
-    position: relative;
-  }
-
-  .input-wrap input { padding-right: 2.75rem; }
-
-  .toggle-pw {
-    position: absolute;
-    right: 0.875rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--muted);
-    padding: 0;
-    display: flex;
-    align-items: center;
-    transition: color 0.15s;
-  }
-
-  .toggle-pw:hover { color: var(--text); }
-  .toggle-pw svg { width: 18px; height: 18px; }
-
-  /* Submit */
-  .btn-submit {
-    width: 100%;
-    margin-top: 0.5rem;
-    padding: 0.875rem 1rem;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    font-family: 'Sora', sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
-    box-shadow: 0 4px 24px var(--accent-glow);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .btn-submit::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
-    pointer-events: none;
-  }
-
-  .btn-submit:hover {
-    background: #6075F9;
-    box-shadow: 0 6px 30px rgba(79, 110, 247, 0.5);
-    transform: translateY(-1px);
-  }
-
-  .btn-submit:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 12px var(--accent-glow);
-  }
-
-  /* Footer */
-  .card-footer {
-    margin-top: 1.75rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-    text-align: center;
-    font-size: 0.8125rem;
-    color: var(--muted);
-  }
-
-  .card-footer a {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-  }
-
-  .card-footer a:hover { text-decoration: underline; }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; }
-  }
-
-  @media (max-width: 480px) {
-    .card { padding: 1.75rem 1.25rem; }
-  }
-</style>
+        /* Petit message de bas de page */
+        .footer-text {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.8rem;
+            color: #888;
+        }
+    </style>
 </head>
 <body>
-<div class="wrapper">
 
-  <div class="brand">
-    <div class="brand-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="3" width="20" height="14" rx="2"/>
-        <path d="M8 21h8M12 17v4"/>
-      </svg>
-    </div>
-    <span class="brand-name">Caisse</span>
-  </div>
-
-  <div class="card">
-    <div class="card-header">
-      <h1>Bon retour 👋</h1>
-      <p>Connectez-vous pour accéder à votre espace.</p>
-    </div>
-
-    <form action="caisse" method="post">
-
-      <div class="field">
-        <label for="email">Adresse e-mail</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="vous@exemple.com"
-          value="<?= esc($defaultEmail) ?>"
-          required
-          autocomplete="email"
-        >
-      </div>
-
-      <div class="field">
-        <label for="password">Mot de passe</label>
-        <div class="input-wrap">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            placeholder="••••••••"
-            value="<?= esc($defaultPassword) ?>"
-            required
-            autocomplete="current-password"
-          >
-          <button
-            type="button"
-            class="toggle-pw"
-            aria-label="Afficher le mot de passe"
-            onclick="
-              const i = document.getElementById('password');
-              const shown = i.type === 'text';
-              i.type = shown ? 'password' : 'text';
-              this.setAttribute('aria-label', shown ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
-              this.querySelector('.eye-off').style.display = shown ? 'none' : 'block';
-              this.querySelector('.eye-on').style.display = shown ? 'block' : 'none';
-            "
-          >
-            <!-- eye-on (default hidden) -->
-            <svg class="eye-on" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-              <line x1="1" y1="1" x2="23" y2="23"/>
-            </svg>
-            <!-- eye-off (default shown) -->
-            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-              <circle cx="12" cy="12" r="3"/>
-            </svg>
-          </button>
+    <div class="login-container">
+        <div class="login-header">
+            <!-- Tu pourras ajouter une petite icône de caddie ou de scan ici si tu veux -->
+            <h1>Espace Caisse</h1>
+            <p>Veuillez vous identifier pour ouvrir la session</p>
         </div>
-      </div>
 
-      <button type="submit" class="btn-submit">Se connecter</button>
+        <form action="caisse" method="post">
+            <div class="input-group">
+                <label for="email">Identifiant ou Email</label>
+                <input type="email" id="email" name="email" value="<?= esc($defaultEmail) ?>" placeholder="exemple@supermarche.com" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" value="<?= esc($defaultPassword) ?>" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="btn-submit">Ouvrir la caisse</button>
+        </form>
 
-    </form>
-
-    <div class="card-footer">
-      Mot de passe oublié ? <a href="#">Réinitialiser</a>
+        <div class="footer-text">
+            &copy; <?= date('Y') ?> Système de Gestion de Stock & Caisse.
+        </div>
     </div>
-  </div>
 
-</div>
 </body>
 </html>
