@@ -7,3 +7,4 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/achat', 'Achat::index');
 $routes->post('/achat/create', 'Achat::create');
+$routes->get('/', 'CaisseController::index');
