@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateProduit extends Migration
+class CreateAchat extends Migration
 {
     public function up()
     {
