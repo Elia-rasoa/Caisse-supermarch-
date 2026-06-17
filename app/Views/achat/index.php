@@ -11,12 +11,12 @@
 const produitsData = <?= json_encode(array_values($produits)) ?>;
 </script>
 
-<div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:1rem;">
+<div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:1rem; margin-top:1rem;">
   <div>
     <label for="produit">Produit</label><br>
     <select id="produit">
       <option value="">-- Sélectionnez un produit --</option>
-      <?php foreach($produits as $p): ?>
+      <?php foreach ($produits as $p): ?>
       <option value="<?= esc($p['id']) ?>"><?= esc($p['designation']) ?></option>
       <?php endforeach; ?>
     </select>
@@ -52,6 +52,12 @@ const produitsData = <?= json_encode(array_values($produits)) ?>;
   </tfoot>
 </table>
 
+
+<form id="formeClot" action="/achat/create" method="post">
+  <input type="hidden" name="caisse" value="<?= esc($caisse) ?>">
+  <input type="hidden" name="lignes" id="lignesInput">
+  <button type="submit" onclick="return preparer()">Clôturer l'achat</button>
+</form>
 <script>
 let lignes = [];
 
@@ -65,7 +71,6 @@ function ajouterLigne() {
   const nom     = select.options[select.selectedIndex].text;
   const qte     = parseInt(document.getElementById('qte').value);
   const erreur  = document.getElementById('erreur');
-
   const produit = produitsData.find(p => p.id == id);
 
   if (!id || !produit || isNaN(qte) || qte <= 0) {
@@ -74,12 +79,17 @@ function ajouterLigne() {
   }
   erreur.textContent = '';
 
-  lignes.push({ nom, prix: produit.prix, qte });
+  lignes.push({ id, nom, prix: produit.prix, qte });
   rafraichir();
 
   select.value = '';
   document.getElementById('qte').value = '';
   select.focus();
+}
+
+function supprimerLigne(i) {
+  lignes.splice(i, 1);
+  rafraichir();
 }
 
 function rafraichir() {
@@ -96,12 +106,32 @@ function rafraichir() {
       <td>${l.nom}</td>
       <td style="text-align:right">${fmt(l.prix)}</td>
       <td style="text-align:right">${l.qte}</td>
-      <td style="text-align:right">${fmt(montant)}</td>`;
+      <td style="text-align:right">${fmt(montant)}</td>
+      <td><button type="button" onclick="supprimerLigne(${i})">✕</button></td>`;
     corps.appendChild(tr);
   });
 
   document.getElementById('total').innerHTML = '<strong>' + fmt(total) + '</strong>';
   tableau.style.display = lignes.length ? 'table' : 'none';
+}
+
+function preparer() {
+  if (lignes.length === 0) {
+    alert('Aucun produit ajouté.');
+    return false;
+  }
+
+  // Sérialise toutes les lignes (id, nom, prix, qte, montant) en JSON
+  const payload = lignes.map(l => ({
+    id:      l.id,
+    nom:     l.nom,
+    prix:    l.prix,
+    qte:     l.qte,
+    montant: l.prix * l.qte
+  }));
+
+  document.getElementById('lignesInput').value = JSON.stringify(payload);
+  return true;
 }
 </script>
 </body>

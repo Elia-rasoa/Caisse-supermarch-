@@ -269,29 +269,27 @@
     <form action="caisse" method="post">
 
       <div class="field">
-        <label for="email">Adresse e-mail</label>
+        <label for="NOm">Nom</label>
         <input
-          type="email"
-          id="email"
-          name="email"
+          type="text"
+          id="NOm"
+          name="NOm"
           placeholder="vous@exemple.com"
-          value="<?= esc($defaultEmail) ?>"
+          value="vous@exemple.com"
           required
-          autocomplete="email"
         >
       </div>
 
       <div class="field">
-        <label for="password">Mot de passe</label>
+        <label for="Prenom">Prénom</label>
         <div class="input-wrap">
           <input
-            type="password"
-            id="password"
-            name="password"
+            type="text"
+            id="Prenom"
+            name="Prenom"
             placeholder="••••••••"
-            value="<?= esc($defaultPassword) ?>"
+            value="123456789"
             required
-            autocomplete="current-password"
           >
           <button
             type="button"
