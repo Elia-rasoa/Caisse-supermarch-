@@ -3,19 +3,26 @@
 namespace App\Controllers;
 
 use App\Models\AchatModel;
+use App\Models\ProduitModel;
 
 class Achat extends BaseController
 {
     public function index() {
-        return view('achat/index');
+        $model = new ProduitModel();
+        
+        $data['produits'] = $model->findAll();
+        $data['caisse'] = $this->request->getPost('caisse');
+
+        $session = session();
+        $session->set('caisse', $data['caisse']);
+
+        return view('achat/index', $data);
     }
 
     public function create() {
         $data = [
             'produit' => $this->request->getPost('produit'),
-            'quantite' => $this->request->getPost('quantite'),
-            'prix_unitaire' => $this->request->getPost('prix_unitaire'),
-            'total' => $this->request->getPost('total'),
+            'qnt' => $this->request->getPost('quantite'),
         ];
 
         $model = new AchatModel();

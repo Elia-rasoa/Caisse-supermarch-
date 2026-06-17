@@ -7,8 +7,8 @@
 </head>
 <body>
     <form action="achat" method="post">
-        <label for="id">Choisir caisse :</label>
-        <select name="id" id="id" required>
+        <label for="caisse">Choisir caisse :</label>
+        <select name="caisse" id="caisse" required>
             <option value="">-- Sélectionnez une caisse --</option>
             <?php foreach ($caisses as $caisse) : ?>
                 <option value="<?php echo htmlspecialchars($caisse['id']); ?>">

@@ -11,3 +11,5 @@ $routes->post('/caisse', 'CaisseController::index');
 $routes->get('/achat', 'Achat::index');
 $routes->post('/achat/create', 'Achat::create');
 $routes->get('/', 'CaisseController::index');
+$routes->post('/achat', 'Achat::index');
+$routes->post('/achat/create', 'Achat::create');
