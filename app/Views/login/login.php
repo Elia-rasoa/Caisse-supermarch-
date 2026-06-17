@@ -118,10 +118,56 @@
 </head>
 <body>
 
-    <div class="login-container">
-        <div class="login-header">
-            <!-- Tu pourras ajouter une petite icône de caddie ou de scan ici si tu veux -->
-            <h1>Espace Caisse</h1>
+    <form action="caisse" method="post">
+
+      <div class="field">
+        <label for="NOm">Nom</label>
+        <input
+          type="text"
+          id="NOm"
+          name="NOm"
+          placeholder="vous@exemple.com"
+          value="vous@exemple.com"
+          required
+        >
+      </div>
+
+      <div class="field">
+        <label for="Prenom">Prénom</label>
+        <div class="input-wrap">
+          <input
+            type="text"
+            id="Prenom"
+            name="Prenom"
+            placeholder="••••••••"
+            value="123456789"
+            required
+          >
+          <button
+            type="button"
+            class="toggle-pw"
+            aria-label="Afficher le mot de passe"
+            onclick="
+              const i = document.getElementById('password');
+              const shown = i.type === 'text';
+              i.type = shown ? 'password' : 'text';
+              this.setAttribute('aria-label', shown ? 'Afficher le mot de passe' : 'Masquer le mot de passe');
+              this.querySelector('.eye-off').style.display = shown ? 'none' : 'block';
+              this.querySelector('.eye-on').style.display = shown ? 'block' : 'none';
+            "
+          >
+            <!-- eye-on (default hidden) -->
+            <svg class="eye-on" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+              <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+              <line x1="1" y1="1" x2="23" y2="23"/>
+            </svg>
+            <!-- eye-off (default shown) -->
+            <svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
         </div>
 
         <form action="caisse" method="post">

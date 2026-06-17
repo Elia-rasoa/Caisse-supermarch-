@@ -9,7 +9,6 @@ class AchatModel extends Model
     protected $table         = 'achats';
     protected $primaryKey    = 'id';
     protected $returnType    = 'array';
-    protected $useTimestamps = true;
 
-    protected $allowedFields = ['produit', 'PU', 'qnt', 'montant'];
+    protected $allowedFields = ['client', 'caisse', 'produit', 'PU', 'qnt', 'montant'];
 }

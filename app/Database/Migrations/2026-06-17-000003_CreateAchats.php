@@ -14,6 +14,15 @@ class CreateAchat extends Migration
                 'unsigned' => true,
                 'auto_increment' => true,
             ],
+            'client' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => true,
+            ],
+            'caisse' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+            ],
             'produit' => [
                 'type' => 'VARCHAR',
                 'constraint' => 100,

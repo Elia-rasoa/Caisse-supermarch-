@@ -7,9 +7,10 @@ use App\Models\ProduitModel;
 
 class Achat extends BaseController
 {
-    public function index() {
+    public function index()
+    {
         $model = new ProduitModel();
-        
+
         $data['produits'] = $model->findAll();
         $data['caisse'] = $this->request->getPost('caisse');
 
@@ -19,15 +20,31 @@ class Achat extends BaseController
         return view('achat/index', $data);
     }
 
-    public function create() {
-        $data = [
-            'produit' => $this->request->getPost('produit'),
-            'qnt' => $this->request->getPost('quantite'),
-        ];
+    public function create()
+    {
+        $lignes = json_decode($this->request->getPost('lignes'), true);
+        $caisse = $this->request->getPost('caisse');
+
+        if (empty($lignes)) {
+            return redirect()->back()->with('error', 'Aucun produit sélectionné.');
+        }
 
         $model = new AchatModel();
-        $model->insert($data);
 
-        return redirect()->to('/achat')->with('success', 'Achat ajouté avec succès.');
+        $client = session()->get('client');
+
+        foreach ($lignes as $l) {
+            $data = [
+                'client'  => $client,
+                'caisse'  => $caisse,
+                'produit' => $l['nom'],
+                'PU'      => $l['prix'],
+                'qnt'     => $l['qte'],
+                'montant' => $l['montant'],
+            ];
+            $model->insert($data);
+        }
+
+        return redirect()->to('/')->with('success', 'Achat clôturé avec succès.');
     }
 }
