@@ -134,7 +134,6 @@
     <div class="selection-container">
         <div class="header">
             <h1>Session de Vente</h1>
-            <p>Sélectionnez votre poste de travail pour commencer</p>
         </div>
 
         <form action="achat" method="post">
@@ -155,9 +154,6 @@
             </button>
         </form>
 
-        <div class="footer-text">
-            Connecté en tant qu'opérateur de caisse.
-        </div>
     </div>
 
 </body>

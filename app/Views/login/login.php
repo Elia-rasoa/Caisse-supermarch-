@@ -122,7 +122,6 @@
         <div class="login-header">
             <!-- Tu pourras ajouter une petite icône de caddie ou de scan ici si tu veux -->
             <h1>Espace Caisse</h1>
-            <p>Veuillez vous identifier pour ouvrir la session</p>
         </div>
 
         <form action="caisse" method="post">
@@ -138,10 +137,6 @@
             
             <button type="submit" class="btn-submit">Ouvrir la caisse</button>
         </form>
-
-        <div class="footer-text">
-            &copy; <?= date('Y') ?> Système de Gestion de Stock & Caisse.
-        </div>
     </div>
 
 </body>
