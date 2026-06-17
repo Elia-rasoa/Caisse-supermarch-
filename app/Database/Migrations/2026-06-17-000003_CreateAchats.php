@@ -18,7 +18,7 @@ class CreateAchat extends Migration
                 'type' => 'VARCHAR',
                 'constraint' => 100,
             ],
-            'prix unitaire' => [
+            'PU' => [
                 'type' => 'INTEGER',
                 'default' => 0,
             ],
