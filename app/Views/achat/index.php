@@ -1,61 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caisse Supermarché - Achat</title>
+<meta charset="UTF-8">
+<title>Caisse Supermarché - Achat</title>
 </head>
 <body>
-    <h1>Effectuer une achat</h1>
-    <form action="achat/create" method="post">
-        <label for="produit">Produit:</label>
-        <input type="text" id="produit" name="produit" required>
+<h1>Caisse n°<?= esc($caisse) ?></h1>
 
-        <label for="quantite">Quantité:</label>
-        <input type="number" id="quantite" name="quantite" required>
+<script>
+const produitsData = <?= json_encode(array_values($produits)) ?>;
+</script>
 
-        <input type="submit" value="Ajouter l'achat">
-    </form>
+<div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:1rem;">
+  <div>
+    <label for="produit">Produit</label><br>
+    <select id="produit">
+      <option value="">-- Sélectionnez un produit --</option>
+      <?php foreach($produits as $p): ?>
+      <option value="<?= esc($p['id']) ?>"><?= esc($p['designation']) ?></option>
+      <?php endforeach; ?>
+    </select>
+  </div>
+  <div>
+    <label for="qte">Quantité</label><br>
+    <input type="number" id="qte" min="1" placeholder="1">
+  </div>
+  <div style="align-self:flex-end;">
+    <button onclick="ajouterLigne()">Ajouter</button>
+  </div>
+</div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Produit</th>
-                <th>Prix Unitaire</th>
-                <th>Quantité</th>
-                <th>Montant</th>
-            </tr>
-        </thead>
+<p id="erreur" style="color:red; min-height:1em;"></p>
 
-        <tbody>
-            <?php if (!empty($achats)) : ?>
-                <?php foreach ($achats as $achat) : ?>
-                    <tr>
-                        <td><?= esc($achat['produit']) ?></td>
-                        <td><?= esc($achat['prix_unitaire']) ?></td>
-                        <td><?= esc($achat['quantite']) ?></td>
-                        <td><?= $achat['prix_unitaire'] * $achat['quantite'] ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php endif; ?>
-        </tbody>
+<table id="tableau" style="display:none; border-collapse:collapse; width:100%;">
+  <thead>
+    <tr>
+      <th style="text-align:left;">Produit</th>
+      <th>Prix unitaire</th>
+      <th>Quantité</th>
+      <th>Montant</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="corps"></tbody>
+  <tfoot>
+    <tr>
+      <td colspan="3"><strong>Total</strong></td>
+      <td id="total"><strong>0 Ar</strong></td>
+      <td></td>
+    </tr>
+  </tfoot>
+</table>
 
-        <tfoot>
-            <tr>
-                <td colspan="3">Total</td>
-                <td>
-                    <?php
-                    $total = 0;
-                    if (!empty($achats)) {
-                        foreach ($achats as $achat) {
-                            $total += $achat['prix_unitaire'] * $achat['quantite'];
-                        }
-                    }
-                    echo $total;
-                    ?>
-                </td>
-            </tr>
-        </tfoot>
-    </table>
+<script>
+let lignes = [];
+
+function fmt(n) {
+  return Number(n).toLocaleString('fr-MG') + ' Ar';
+}
+
+function ajouterLigne() {
+  const select  = document.getElementById('produit');
+  const id      = select.value;
+  const nom     = select.options[select.selectedIndex].text;
+  const qte     = parseInt(document.getElementById('qte').value);
+  const erreur  = document.getElementById('erreur');
+
+  const produit = produitsData.find(p => p.id == id);
+
+  if (!id || !produit || isNaN(qte) || qte <= 0) {
+    erreur.textContent = 'Veuillez sélectionner un produit et une quantité valide.';
+    return;
+  }
+  erreur.textContent = '';
+
+  lignes.push({ nom, prix: produit.prix, qte });
+  rafraichir();
+
+  select.value = '';
+  document.getElementById('qte').value = '';
+  select.focus();
+}
+
+function rafraichir() {
+  const corps   = document.getElementById('corps');
+  const tableau = document.getElementById('tableau');
+  corps.innerHTML = '';
+  let total = 0;
+
+  lignes.forEach((l, i) => {
+    const montant = l.prix * l.qte;
+    total += montant;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${l.nom}</td>
+      <td style="text-align:right">${fmt(l.prix)}</td>
+      <td style="text-align:right">${l.qte}</td>
+      <td style="text-align:right">${fmt(montant)}</td>`;
+    corps.appendChild(tr);
+  });
+
+  document.getElementById('total').innerHTML = '<strong>' + fmt(total) + '</strong>';
+  tableau.style.display = lignes.length ? 'table' : 'none';
+}
+</script>
 </body>
 </html>

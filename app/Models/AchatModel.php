@@ -11,5 +11,5 @@ class AchatModel extends Model
     protected $returnType    = 'array';
     protected $useTimestamps = true;
 
-    protected $allowedFields = ['produit', 'quantite', 'prix_unitaire', 'total'];
+    protected $allowedFields = ['produit', 'PU', 'qnt', 'montant'];
 }
