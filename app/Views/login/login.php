@@ -173,12 +173,12 @@
         <form action="caisse" method="post">
             <div class="input-group">
                 <label for="email">Identifiant ou Email</label>
-                <input type="email" id="email" name="email" value="<?= esc($defaultEmail) ?>" placeholder="exemple@supermarche.com" required>
+                <input type="email" id="email" name="email" value="exemple@supermarche.com" placeholder="exemple@supermarche.com" required>
             </div>
             
             <div class="input-group">
                 <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="password" value="<?= esc($defaultPassword) ?>" placeholder="••••••••" required>
+                <input type="password" id="password" name="password" value="123456" placeholder="••••••••" required>
             </div>
             
             <button type="submit" class="btn-submit">Ouvrir la caisse</button>
