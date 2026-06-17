@@ -6,7 +6,7 @@
     <title>Accueil</title>
 </head>
 <body>
-    <form action="saisie/saisie-achat.php" method="post">
+    <form action="achat" method="post">
         <label for="id">Choisir caisse :</label>
         <select name="id" id="id" required>
             <option value="">-- Sélectionnez une caisse --</option>
